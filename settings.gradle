@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap' }
+
+        mavenCentral()
+
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+}
+rootProject.name = 'testdata'
+include 'datagen-base'
+include 'testdata-tps-support'
+include 'sm2013-support'

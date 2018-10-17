@@ -1,0 +1,6 @@
+alphabet: abcdefghijklmnopqrstuvwxyzæøå
+personalEmails: [gmail.com, yahoo.com, hotmail.com, mail.com, online.no]
+companySuffixes: [AS]
+landlinePhoneNumberFormat: ['6## ## ###']
+companyPhoneNumberFormat: ['8## ## ###', '2## ## ###']
+mobilePhoneNumberFormat: ['4## ## ###', '9## ## ###']
