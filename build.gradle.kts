@@ -7,15 +7,13 @@ val spekVersion = "2.0.0-rc.1"
 
 plugins {
     java
-    kotlin("jvm") version "1.2.61"
+    kotlin("jvm") version "1.3.0"
 }
 
 group = "no.nav.testdata"
 version = "1.0-SNAPSHOT"
 
 allprojects {
-    apply(plugin = "kotlin")
-
     group = "no.nav.testdata"
     version = "1.0-SNAPSHOT"
 
@@ -30,20 +28,24 @@ allprojects {
         }
     }
 
-    dependencies {
-        implementation(kotlin("stdlib-jdk8"))
-        implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-        implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
-        implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations:$jacksonVersion")
-        implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
-        implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+    if (!name.endsWith("-js")) {
+        apply(plugin = "kotlin")
 
-        implementation("javax.xml.bind:jaxb-api:$jaxbApiVersion")
+        dependencies {
+            implementation(kotlin("stdlib-jdk8"))
+            implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+            implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
+            implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations:$jacksonVersion")
+            implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+            implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
 
-        testImplementation("org.amshove.kluent:kluent:1.39")
-        testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion")
-        testRuntimeOnly("org.spekframework.spek2:spek-runtime-jvm:$spekVersion")
-        testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion")
+            implementation("javax.xml.bind:jaxb-api:$jaxbApiVersion")
+
+            testImplementation("org.amshove.kluent:kluent:1.39")
+            testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion")
+            testRuntimeOnly("org.spekframework.spek2:spek-runtime-jvm:$spekVersion")
+            testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion")
+        }
     }
 
     tasks.withType<KotlinCompile> {

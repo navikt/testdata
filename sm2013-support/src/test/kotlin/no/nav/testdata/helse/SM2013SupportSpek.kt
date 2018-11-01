@@ -11,6 +11,8 @@ import no.nav.helse.sm2013.HelseOpplysningerArbeidsuforhet
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.io.StringWriter
+import java.nio.file.Files
+import java.nio.file.Paths
 import javax.xml.bind.JAXBContext
 import javax.xml.bind.Marshaller
 
@@ -31,6 +33,11 @@ object SM2013SupportSpek : Spek({
     describe("Random generated SM2013 should create XML") {
         it("Generates a XML") {
             println(marshaller.toString(GPerson().toSM2013(GPerson(extensions = listOf(GDoctor())))))
+        }
+        it("Generates 10 xml files") {
+            for (i in 1..10) {
+                Files.write(Paths.get("build/test-results/sykmelding-$i.xml"), marshaller.toString(GPerson().toSM2013(GPerson(extensions = listOf(GDoctor())))).toByteArray(Charsets.UTF_8))
+            }
         }
     }
 })

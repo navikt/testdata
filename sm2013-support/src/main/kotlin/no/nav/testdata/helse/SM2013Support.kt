@@ -36,7 +36,7 @@ fun GPerson.toSM2013(
         nameFastlege: String = doctor.fullName,
         navOffice: String = String.format("%04d", Random().nextInt(9999)),
         period: List<GActivityPeriod> = listOf(GActivityPeriod(generator)),
-        startDate: ZonedDateTime = ZonedDateTime.now().minusYears(generator.random.nextLong(0, 30)),
+        startDate: ZonedDateTime = ZonedDateTime.now().minusDays(generator.random.nextLong(0, 30)),
         senderSystemName: String = "NAV Test generator",
         senderSystemVersion: String = "1.0",
         forecast: GForecast = GForecast(generator, employments.isNotEmpty()),
@@ -55,8 +55,8 @@ fun GPerson.toSM2013(
         patientContactDate: ZonedDateTime? = generator.random.withChance(3, 4) { ZonedDateTime.now().minusDays(generator.random.nextLong(3, 30)) },
         patientContactProcessedDate: ZonedDateTime? = patientContactDate?.let { generator.random.dateBetween(patientContactDate, ZonedDateTime.now()) },
         reasonForNotContactingPatient: String? = patientContactDate?.let { generator.text(10, 100) },
-        mainDiagnose: Kodeverk = generator.random.nextEntry(ICD10.values().flatMap { ICPC2.values().toList() }),
-        biDiagnosis: List<Kodeverk> = listOf(generator.random.nextEntry(ICD10.values().flatMap { ICPC2.values().toList() }))
+        mainDiagnose: Kodeverk = generator.random.nextEntry(listOf<List<Kodeverk>>(ICD10.values().toList(), ICPC2.values().toList()).flatten()),
+        biDiagnosis: List<Kodeverk> = listOf(generator.random.nextEntry(listOf<List<Kodeverk>>(ICD10.values().toList(), ICPC2.values().toList()).flatten()))
 ): HelseOpplysningerArbeidsuforhet {
     val data = this
     val doctorExt = doctor.ext<GDoctor>()
@@ -289,7 +289,7 @@ data class GActivityPeriod(
     },
     val notPossibleHealth: GActivityNotPossibleType? = activityType?.onSame(GActivityType.ACTIVITY_NOT_POSSIBLE) {
         if (notPossibleWorkplace == null) {
-            GActivityNotPossibleType(listOf(generator.random.nextEntry(GWorkplaceReason.values().toList())), generator.text(10, 100))
+            GActivityNotPossibleType(listOf(generator.random.nextEntry(GHealthReason.values().toList())), generator.text(10, 100))
         } else {
             null
         }
